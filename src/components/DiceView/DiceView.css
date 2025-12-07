@@ -25,6 +25,12 @@
   left: calc(-100% * var(--DiceView-Value));
 }
 
+@media (prefers-color-scheme: dark) {
+  .DiceView-Image {
+    filter: invert();
+  }
+}
+
 @keyframes DiceView-Roll {
   from {
     position: relative;
