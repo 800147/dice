@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState, type FunctionComponent } from "react";
+import "./App.css";
+import { DiceView, type DVariant } from "./components/DiceView/DiceView";
+
+const DRadio: FunctionComponent<{
+  value: DVariant;
+  d: number;
+  setD: (d: DVariant) => void;
+  setState: (state: { value: number }) => void;
+}> = ({ value, d, setD, setState }) => (
+  <label>
+    <input
+      type="radio"
+      name="d"
+      value={value}
+      onChange={() => {
+        setD(value);
+        setState({ value: 0 });
+      }}
+      checked={d === value}
+    />
+    {`D${value}`}
+  </label>
+);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [d, setD] = useState<DVariant>(6);
+  const [state, setState] = useState<{ value: number }>(() => ({ value: 0 }));
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+      <p>
+        <DRadio value={2} d={d} setD={setD} setState={setState} />
+        <br />
+        <DRadio value={4} d={d} setD={setD} setState={setState} />
+        <br />
+        <DRadio value={6} d={d} setD={setD} setState={setState} />
+        <br />
+        <DRadio value={20} d={d} setD={setD} setState={setState} />
       </p>
+      <div>
+        <DiceView d={d} state={state} />
+      </div>
+      <div className="card">
+        <button
+          onClick={() => setState({ value: Math.floor(Math.random() * d) + 1 })}
+        >
+          roll the dice
+        </button>
+      </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

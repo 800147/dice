@@ -4,13 +4,14 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 8080",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "publish": "git add -A && git stash && git checkout publish && git rebase -X ours main && npm ci && npm run build && git add -A && git commit --amend -m 'build' && git push origin publish --force && git checkout main"
   },
   "dependencies": {
+    "clsx": "^2.1.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0"
   },

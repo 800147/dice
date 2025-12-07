@@ -1,0 +1,42 @@
+.DiceView {
+  --DiceView-TilesMapWidth: 1050;
+  --DiceView-TilesMapHeight: 1000;
+  --DiceView-TileSize: 50;
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.DiceView-ImageWrapper {
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+}
+
+.DiceView-Image {
+  width: calc(100% * var(--DiceView-TilesMapWidth) / var(--DiceView-TileSize));
+  height: calc(
+    100% * var(--DiceView-TilesMapHeight) / var(--DiceView-TileSize)
+  );
+  position: relative;
+  top: calc(-100% * (var(--DiceView-D) - 1));
+  left: calc(-100% * var(--DiceView-Value));
+}
+
+@keyframes DiceView-Roll {
+  from {
+    position: relative;
+    opacity: 0;
+    top: -25%;
+  }
+  to {
+    position: relative;
+    top: 0;
+  }
+}
+
+.DiceView-ImageWrapper_animated {
+  animation: 0.3s DiceView-Roll ease-out;
+}
