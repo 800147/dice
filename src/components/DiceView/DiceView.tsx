@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import {
   useEffect,
   useLayoutEffect,
@@ -7,10 +6,10 @@ import {
   type CSSProperties,
   type FunctionComponent,
 } from "react";
+import clsx from "clsx";
+import type { DVariant } from "../../helpers/dVariants";
 import diceTiles from "/dice-tiles.svg";
 import "./DiceView.css";
-
-export type DVariant = 2 | 4 | 6 | 20;
 
 interface DiceViewProps {
   d: DVariant;
