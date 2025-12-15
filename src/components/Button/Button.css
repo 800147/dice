@@ -1,0 +1,19 @@
+.Button {
+  appearance: none;
+  font: inherit;
+  border: 1px solid currentColor;
+  background-color: transparent;
+
+  border-radius: 8px;
+  padding: 0 1ex;
+  height: 36px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.Button_size_large {
+  height: 64px;
+  font-size: 28px;
+  border-radius: 9999px;
+  padding: 0 3ex;
+}

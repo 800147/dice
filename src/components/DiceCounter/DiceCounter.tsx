@@ -1,6 +1,7 @@
 import type { FunctionComponent } from "react";
 import clsx from "clsx";
 import type { DVariant } from "../../helpers/dVariants";
+import { Button } from "../Button/Button";
 import { DiceView } from "../DiceView/DiceView";
 import "./DiceCounter.css";
 
@@ -19,22 +20,31 @@ export const DiceCounter: FunctionComponent<DiceCounterProps> = ({
 }) => {
   return (
     <div className={clsx("DiceCounter", className)}>
-      <button
+      <Button
         type="button"
         className="DiceCounter-PlusButton"
         onClick={() => changeCount(d, +1)}
       >
         +
-      </button>
-      <DiceView className="DiceCounter-DiceView" d={d} state={{ value: 0 }} />
-      <div className="DiceCounter-Counter">{count ? `×${count}` : " "}</div>
-      <button
+      </Button>
+      <div className="DiceCounter-DiceViewBox">
+        <DiceView
+          className="DiceCounter-DiceView"
+          d={d}
+          state={{ value: 0 }}
+          noAnimation
+        />
+        {count ? (
+          <div className="DiceCounter-Counter">{`×${count}`}</div>
+        ) : null}
+      </div>
+      <Button
         type="button"
         className="DiceCounter-MinusButton"
         onClick={() => changeCount(d, -1)}
       >
         &minus;
-      </button>
+      </Button>
     </div>
   );
 };

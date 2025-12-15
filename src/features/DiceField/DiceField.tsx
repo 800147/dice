@@ -1,10 +1,18 @@
-import { useCallback, useMemo, useRef, useState } from "react";
-import { DiceView } from "./components/DiceView/DiceView";
-import { DiceCounter } from "./components/DiceCounter/DiceCounter";
-import { dVariants, type DVariant } from "./helpers/dVariants";
-import "./App.css";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type FunctionComponent,
+} from "react";
+import clsx from "clsx";
+import { DiceView } from "../../components/DiceView/DiceView";
+import { DiceCounter } from "../../components/DiceCounter/DiceCounter";
+import { dVariants, type DVariant } from "../../helpers/dVariants";
+import { Button } from "../../components/Button/Button";
+import "./DiceField.css";
 
-function App() {
+export const DiceField: FunctionComponent = () => {
   const indexRef = useRef(0);
   const [dices, setDices] = useState<
     { key: string; d: DVariant; state: { value: number } }[]
@@ -71,13 +79,24 @@ function App() {
   }, [dices]);
 
   return (
-    <div className="App">
-      <div className="App-Dices">
-        {dices.map(({ d, key, state }) => (
-          <DiceView className="App-Dice" d={d} key={key} state={state} />
+    <div className="DiceField">
+      <div
+        className={clsx(
+          "DiceField-Field",
+          `DiceField-Field_count_${dices.length}`,
+        )}
+      >
+        {dices.map(({ d, key, state }, i) => (
+          <DiceView
+            className="DiceField-Dice"
+            d={d}
+            key={key}
+            state={state}
+            position={i}
+          />
         ))}
       </div>
-      <div className="App-Counters">
+      <div className="DiceField-Counters">
         {dVariants.map((dVariant) => (
           <DiceCounter
             d={dVariant}
@@ -87,13 +106,9 @@ function App() {
           />
         ))}
       </div>
-      <div>
-        <button type="button" onClick={roll}>
-          roll
-        </button>
-      </div>
+      <Button className="DiceField-RollButton" onClick={roll} size="large">
+        roll
+      </Button>
     </div>
   );
-}
-
-export default App;
+};

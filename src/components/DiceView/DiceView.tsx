@@ -16,6 +16,8 @@ interface DiceViewProps {
   state: {
     value?: number;
   };
+  position?: number;
+  noAnimation?: boolean;
   className?: string;
 }
 
@@ -28,6 +30,8 @@ interface DiceViewState {
 export const DiceView: FunctionComponent<DiceViewProps> = ({
   d: dProp,
   state: stateProp,
+  position,
+  noAnimation,
   className,
 }) => {
   const [state, setState] = useState<DiceViewState | undefined>(undefined);
@@ -40,8 +44,9 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
       "--DiceView-D": d,
       "--DiceView-Value": value,
       "--DiceView-OldValue": oldValue ?? 0,
+      "--DiceView-Position": position,
     } as CSSProperties;
-  }, [state, dProp]);
+  }, [state, dProp, position]);
 
   useEffect(() => {
     setState(({ value: oldValue } = { d: dProp, value: 0 }) => ({
@@ -63,7 +68,14 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
   }, [state, imageWrapper]);
 
   return (
-    <div className={clsx("DiceView", className)} style={style}>
+    <div
+      className={clsx(
+        "DiceView",
+        noAnimation && "DiceView_noAnimation",
+        className,
+      )}
+      style={style}
+    >
       <div
         className={clsx(
           "DiceView-ImageWrapper",

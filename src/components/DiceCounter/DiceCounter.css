@@ -1,4 +1,41 @@
 .DiceCounter {
-  width: 40px;
+  width: 64px;
   display: grid;
+}
+.DiceCounter-PlusButton.DiceCounter-PlusButton,
+.DiceCounter-MinusButton.DiceCounter-MinusButton {
+  border-radius: 12px;
+}
+
+.DiceCounter-PlusButton.DiceCounter-PlusButton {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: none;
+}
+
+.DiceCounter-MinusButton.DiceCounter-MinusButton {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border-top: none;
+}
+
+.DiceCounter-DiceViewBox {
+  position: relative;
+}
+
+.DiceCounter-Counter {
+  position: absolute;
+  border: 1px solid currentColor;
+  bottom: 0;
+  right: 0;
+  background-color: white;
+  padding: 0 1ex;
+  font-size: 16px;
+  border-radius: 9999px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .DiceCounter-Counter {
+    background-color: black;
+  }
 }
