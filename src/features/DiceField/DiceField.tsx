@@ -86,15 +86,22 @@ export const DiceField: FunctionComponent = () => {
           `DiceField-Field_count_${dices.length}`,
         )}
       >
-        {dices.map(({ d, key, state }, i) => (
-          <DiceView
-            className="DiceField-Dice"
-            d={d}
-            key={key}
-            state={state}
-            position={i}
-          />
-        ))}
+        <div className="DiceField-Dices">
+          {!dices.length && (
+            <span className="DiceField-NoDicesText">
+              add some dices using controls below
+            </span>
+          )}
+          {dices.map(({ d, key, state }, i) => (
+            <DiceView
+              className="DiceField-Dice"
+              d={d}
+              key={key}
+              state={state}
+              position={i}
+            />
+          ))}
+        </div>
       </div>
       <div className="DiceField-Counters">
         {dVariants.map((dVariant) => (
@@ -106,8 +113,13 @@ export const DiceField: FunctionComponent = () => {
           />
         ))}
       </div>
-      <Button className="DiceField-RollButton" onClick={roll} size="large">
-        roll
+      <Button
+        className="DiceField-RollButton"
+        onClick={roll}
+        size="large"
+        disabled={!dices.length}
+      >
+        roll the dices
       </Button>
     </div>
   );

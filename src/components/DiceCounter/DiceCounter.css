@@ -4,7 +4,7 @@
 }
 .DiceCounter-PlusButton.DiceCounter-PlusButton,
 .DiceCounter-MinusButton.DiceCounter-MinusButton {
-  border-radius: 12px;
+  border-radius: 16px;
 }
 
 .DiceCounter-PlusButton.DiceCounter-PlusButton {
@@ -23,19 +23,18 @@
   position: relative;
 }
 
+.DiceCounter-DiceView {
+  width: 64px;
+  height: 64px;
+}
+
 .DiceCounter-Counter {
   position: absolute;
   border: 1px solid currentColor;
   bottom: 0;
   right: 0;
-  background-color: white;
+  background-color: var(--bg-color);
   padding: 0 1ex;
   font-size: 16px;
   border-radius: 9999px;
-}
-
-@media (prefers-color-scheme: dark) {
-  .DiceCounter-Counter {
-    background-color: black;
-  }
 }

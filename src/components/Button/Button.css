@@ -1,4 +1,5 @@
 .Button {
+  position: relative;
   appearance: none;
   font: inherit;
   border: 1px solid currentColor;
@@ -9,6 +10,10 @@
   height: 36px;
   font-size: 22px;
   line-height: 1;
+  border-width: 2px;
+  overflow: hidden;
+  text-box-edge: ex alphabetic;
+  text-box-trim: trim-both;
 }
 
 .Button_size_large {
@@ -16,4 +21,32 @@
   font-size: 28px;
   border-radius: 9999px;
   padding: 0 3ex;
+}
+
+.Button:disabled {
+  opacity: 0.5;
+  color: var(--color);
+}
+
+.Button::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  background-color: var(--color);
+  opacity: 0;
+}
+
+.Button:not(:disabled):active::before {
+  opacity: 0.1;
+}
+
+@media (prefers-color-scheme: dark) {
+  .Button:not(:disabled):active::before {
+    opacity: 0.2;
+  }
+}
+
+.Button:not(:active)::before {
+  transition: opacity 0.1s linear;
 }

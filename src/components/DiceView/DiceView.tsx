@@ -83,7 +83,12 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
         )}
         ref={setImageWrapper}
       >
-        <img className="DiceView-Image" src={diceTiles} />
+        <img
+          className="DiceView-Image"
+          width="50"
+          height="50"
+          src={diceTiles}
+        />
       </div>
     </div>
   );

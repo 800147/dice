@@ -4,23 +4,28 @@
 
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  padding: 8px;
   box-sizing: border-box;
+  --gap: 12px;
+  gap: var(--gap);
+  padding: var(--gap);
 }
 
 .DiceField-Field {
-  display: flex;
-  grid-auto-flow: column;
-  flex-wrap: wrap;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
   min-height: 120px;
-  border: 2px dashed currentColor;
-  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  border: 8px dotted currentColor;
+  border-radius: 32px;
   height: 100%;
   overflow: auto;
+}
+
+.DiceField-Dices {
+  margin: auto 0;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .DiceField-Dice {
@@ -40,16 +45,23 @@
   display: grid;
   grid-auto-flow: column;
   width: max-content;
-  gap: 8px;
+  gap: var(--gap);
   flex-shrink: 0;
   overflow: auto;
-  max-width: calc(100% + 16px);
-  margin-left: -8px;
-  margin-right: -8px;
+  max-width: calc(100% + var(--gap) * 2);
+  margin-left: calc(var(--gap) * -1);
+  margin-right: calc(var(--gap) * -1);
   box-sizing: border-box;
-  padding: 0 8px;
+  padding: 0 var(--gap);
 }
 
 .DiceField-RollButton {
   flex-shrink: 0;
+}
+
+.DiceField-NoDicesText {
+  display: block;
+  padding: 0 4ex;
+  text-box-edge: ex alphabetic;
+  text-box-trim: trim-both;
 }

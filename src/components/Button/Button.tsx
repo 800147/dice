@@ -8,6 +8,7 @@ interface ButtonProps {
   children?: ReactNode;
   size?: "medium" | "large";
   type?: "submit" | "reset" | "button";
+  disabled?: boolean;
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({
@@ -16,11 +17,13 @@ export const Button: FunctionComponent<ButtonProps> = ({
   children,
   size = "medium",
   type = "button",
+  disabled,
 }) => (
   <button
     className={clsx("Button", `Button_size_${size}`, className)}
     onClick={onClick}
     type={type}
+    disabled={disabled}
   >
     {children}
   </button>
