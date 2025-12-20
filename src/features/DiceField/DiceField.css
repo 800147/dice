@@ -32,13 +32,7 @@
   width: 96px;
   height: 96px;
   flex-shrink: 0;
-}
-
-.DiceField-Field_count_0 .DiceField-Dice,
-.DiceField-Field_count_1 .DiceField-Dice,
-.DiceField-Field_count_2 .DiceField-Dice {
-  width: 156px;
-  height: 156px;
+  user-select: none;
 }
 
 .DiceField-Counters {
@@ -64,4 +58,42 @@
   padding: 0 4ex;
   text-box-edge: ex alphabetic;
   text-box-trim: trim-both;
+  text-align: center;
+}
+
+.DiceField-Dice {
+  view-transition-class: dice;
+}
+
+/*
+.DiceField-Dices:not(:has(> .DiceField-Dice:nth-child(3))) .DiceField-Dice {
+  width: 156px;
+  height: 156px;
+}
+*/
+
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes DiceView-Disappear {
+  to {
+    transform: translateY(33%);
+    opacity: 0;
+  }
+}
+
+::view-transition-old(.dice),
+::view-transition-new(.dice) {
+  height: 100%; /* Fill the animated group height */
+  object-fit: cover; /* Prevent distortion while filling the space */
+}
+
+::view-transition-old(.dice):only-child {
+  animation: 0.3s DiceView-Disappear ease-out forwards;
+}
+
+::view-transition-group(.dice) {
+  animation-timing-function: ease-out;
+  animation-duration: 0.3s;
 }

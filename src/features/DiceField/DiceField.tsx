@@ -4,8 +4,9 @@ import {
   useRef,
   useState,
   type FunctionComponent,
+  startTransition,
+  ViewTransition,
 } from "react";
-import clsx from "clsx";
 import { DiceView } from "../../components/DiceView/DiceView";
 import { DiceCounter } from "../../components/DiceCounter/DiceCounter";
 import { dVariants, type DVariant } from "../../helpers/dVariants";
@@ -21,37 +22,41 @@ export const DiceField: FunctionComponent = () => {
   const changeCount = useCallback(
     (d: DVariant, delta: number) => {
       if (delta > 0) {
-        setDices((oldDices) => {
-          if (oldDices[0]?.state.value) {
-            return [
-              { key: String(++indexRef.current), d, state: { value: 0 } },
-            ];
-          }
+        startTransition(() =>
+          setDices((oldDices) => {
+            if (oldDices[0]?.state.value) {
+              return [
+                { key: `id_${++indexRef.current}`, d, state: { value: 0 } },
+              ];
+            }
 
-          return [
-            ...oldDices,
-            { key: String(++indexRef.current), d, state: { value: 0 } },
-          ];
-        });
+            return [
+              ...oldDices,
+              { key: `id_${++indexRef.current}`, d, state: { value: 0 } },
+            ];
+          }),
+        );
 
         return;
       }
 
-      setDices((oldDices) => {
-        if (oldDices[0]?.state.value) {
-          return [];
-        }
+      startTransition(() =>
+        setDices((oldDices) => {
+          if (oldDices[0]?.state.value) {
+            return [];
+          }
 
-        const last = (
-          oldDices as unknown as { findLastIndex: typeof oldDices.findIndex }
-        ).findLastIndex(({ d: elD }) => elD === d);
+          const last = (
+            oldDices as unknown as { findLastIndex: typeof oldDices.findIndex }
+          ).findLastIndex(({ d: elD }) => elD === d);
 
-        if (last === -1) {
-          return oldDices;
-        }
+          if (last === -1) {
+            return oldDices;
+          }
 
-        return oldDices.filter((_, i) => i !== last);
-      });
+          return oldDices.filter((_, i) => i !== last);
+        }),
+      );
     },
     [setDices, indexRef],
   );
@@ -80,28 +85,26 @@ export const DiceField: FunctionComponent = () => {
 
   return (
     <div className="DiceField">
-      <div
-        className={clsx(
-          "DiceField-Field",
-          `DiceField-Field_count_${dices.length}`,
-        )}
-      >
-        <div className="DiceField-Dices">
-          {!dices.length && (
-            <span className="DiceField-NoDicesText">
-              add some dices using controls below
-            </span>
-          )}
-          {dices.map(({ d, key, state }, i) => (
-            <DiceView
-              className="DiceField-Dice"
-              d={d}
-              key={key}
-              state={state}
-              position={i}
-            />
-          ))}
-        </div>
+      <div className="DiceField-Field">
+        <ViewTransition>
+          <div className="DiceField-Dices">
+            {!dices.length && (
+              <span className="DiceField-NoDicesText">
+                add some dices using controls below
+              </span>
+            )}
+            {dices.map(({ d, key, state }, i) => (
+              <DiceView
+                className="DiceField-Dice"
+                d={d}
+                viewTransitionName={key}
+                key={key}
+                state={state}
+                position={i}
+              />
+            ))}
+          </div>
+        </ViewTransition>
       </div>
       <div className="DiceField-Counters">
         {dVariants.map((dVariant) => (

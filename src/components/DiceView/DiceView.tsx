@@ -19,6 +19,7 @@ interface DiceViewProps {
   position?: number;
   noAnimation?: boolean;
   className?: string;
+  viewTransitionName?: string;
 }
 
 interface DiceViewState {
@@ -33,6 +34,7 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
   position,
   noAnimation,
   className,
+  viewTransitionName,
 }) => {
   const [state, setState] = useState<DiceViewState | undefined>(undefined);
   const [imageWrapper, setImageWrapper] = useState<HTMLDivElement | null>(null);
@@ -40,13 +42,16 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
   const style = useMemo<CSSProperties>(() => {
     const { d, value, oldValue } = state ?? { d: dProp, value: 0 };
 
-    return {
-      "--DiceView-D": d,
-      "--DiceView-Value": value,
-      "--DiceView-OldValue": oldValue ?? 0,
-      "--DiceView-Position": position,
-    } as CSSProperties;
-  }, [state, dProp, position]);
+    return Object.assign(
+      {
+        "--DiceView-D": d,
+        "--DiceView-Value": value,
+        "--DiceView-OldValue": oldValue ?? 0,
+        "--DiceView-Position": position,
+      },
+      viewTransitionName ? { "view-transition-name": viewTransitionName } : {},
+    ) as CSSProperties;
+  }, [state, dProp, position, viewTransitionName]);
 
   useEffect(() => {
     setState(({ value: oldValue } = { d: dProp, value: 0 }) => ({

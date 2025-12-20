@@ -1,6 +1,7 @@
 .DiceCounter {
   width: 64px;
   display: grid;
+  user-select: none;
 }
 .DiceCounter-PlusButton.DiceCounter-PlusButton,
 .DiceCounter-MinusButton.DiceCounter-MinusButton {
