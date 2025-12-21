@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "publish": "git add -A && git stash && git checkout publish && git rebase -X ours main && npm ci && npm run build && git add -A && git commit --amend -m 'build' && git push origin publish --force && git checkout main"
+    "publish": "git add -A && git stash && git checkout publish && git rebase -X ours main && npm ci && npx tsc -b && npx vite build --outDir docs && git add -A && git commit --amend -m 'build' && git push origin publish --force && git checkout main"
   },
   "dependencies": {
     "clsx": "^2.1.1",
