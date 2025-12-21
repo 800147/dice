@@ -85,26 +85,31 @@ export const DiceField: FunctionComponent = () => {
 
   return (
     <div className="DiceField">
-      <div className="DiceField-Field">
-        <ViewTransition>
-          <div className="DiceField-Dices">
-            {!dices.length && (
-              <span className="DiceField-NoDicesText">
-                add some dices using controls below
-              </span>
-            )}
-            {dices.map(({ d, key, state }, i) => (
-              <DiceView
-                className="DiceField-Dice"
-                d={d}
-                viewTransitionName={key}
-                key={key}
-                state={state}
-                position={i}
-              />
-            ))}
-          </div>
-        </ViewTransition>
+      <div className="DiceField-FieldWrapper">
+        <div className="DiceField-Field">
+          <ViewTransition>
+            <div className="DiceField-Dices">
+              {!dices.length && (
+                <span className="DiceField-NoDicesText">
+                  add some dices using controls below
+                </span>
+              )}
+              {dices.map(({ d, key, state }, i) => (
+                <DiceView
+                  className="DiceField-Dice"
+                  d={d}
+                  viewTransitionName={key}
+                  key={key}
+                  state={state}
+                  position={i}
+                />
+              ))}
+            </div>
+          </ViewTransition>
+        </div>
+        <a className="DiceField-AboutLink" href="./about">
+          about
+        </a>
       </div>
       <div className="DiceField-Counters">
         {dVariants.map((dVariant) => (

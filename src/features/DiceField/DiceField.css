@@ -10,14 +10,48 @@
   padding: var(--gap);
 }
 
-.DiceField-Field {
+.DiceField-FieldWrapper {
+  position: relative;
   min-height: 120px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.DiceField-Field {
   display: flex;
   flex-direction: column;
   border: 8px dotted currentColor;
   border-radius: 32px;
   height: 100%;
   overflow: auto;
+  box-sizing: border-box;
+}
+
+.DiceField-AboutLink {
+  position: absolute;
+  padding: 0 0.5ex;
+  transform: rotate(-90deg) translateX(100%);
+  transform-origin: bottom right;
+  color: var(--color);
+  bottom: 40px;
+  right: 0;
+  text-box-edge: ex alphabetic;
+  text-box-trim: trim-both;
+}
+
+@supports not (text-box-trim: trim-both) {
+  .DiceField-AboutLink {
+    right: -6px;
+  }
+}
+
+.DiceField-AboutLink::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: -0.25em 0;
+  background-color: var(--bg-color);
+  z-index: -1;
 }
 
 .DiceField-Dices {
@@ -72,21 +106,11 @@
 }
 */
 
-@view-transition {
-  navigation: auto;
-}
-
 @keyframes DiceView-Disappear {
   to {
     transform: translateY(33%);
     opacity: 0;
   }
-}
-
-::view-transition-old(.dice),
-::view-transition-new(.dice) {
-  height: 100%; /* Fill the animated group height */
-  object-fit: cover; /* Prevent distortion while filling the space */
 }
 
 ::view-transition-old(.dice):only-child {
