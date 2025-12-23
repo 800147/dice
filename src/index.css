@@ -15,15 +15,23 @@
   -moz-osx-font-smoothing: grayscale;
 
   width: 100%;
-  max-width: 800px;
   height: 100dvh;
-  max-height: 800px;
   margin: 0 auto;
+
+  user-select: none;
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color: white;
     --bg-color: black;
+  }
+}
+
+@media (width >= 800px) {
+  :root {
+    max-width: 800px;
+    max-height: 800px;
   }
 }
 
