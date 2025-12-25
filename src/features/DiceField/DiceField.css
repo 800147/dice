@@ -57,18 +57,76 @@
 .DiceField-Dices {
   margin: auto 0;
   width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  position: relative;
+  --dice-width: 96px;
+  height: calc(
+    max(1, round(up, var(--dices-count) / var(--dices-in-a-row), 1)) *
+      var(--dice-width)
+  );
+  transition: height 0.3s ease-out;
 }
 
+/*.DiceField-Dices:not(:has(> .DiceField-Dice:nth-child(3))) {
+  --dice-width: 144px;
+}*/
+
 .DiceField-Dice {
-  width: 96px;
-  height: 96px;
-  flex-shrink: 0;
+  --dices-count-1: var(--dices-count);
+  position: absolute;
+  top: 0;
+  left: var(--left-indent);
+  width: var(--dice-width);
+  height: var(--dice-width);
   user-select: none;
 
-  view-transition-class: dice;
+  --row: calc(round(down, var(--DiceView-Position) / var(--dices-in-a-row), 1));
+  --col: calc(var(--DiceView-Position) - var(--row) * var(--dices-in-a-row));
+
+  transform: translate(
+    calc(
+      (
+          var(--col) +
+            (
+              round(up, var(--dices-count-1), var(--dices-in-a-row)) -
+                var(--dices-count-1)
+            ) /
+            2 *
+            max(
+              0,
+              calc(
+                round(
+                    down,
+                    calc(var(--DiceView-Position) / var(--dices-in-a-row) + 1),
+                    1
+                  ) -
+                  round(
+                    down,
+                    calc(var(--dices-count-1) / var(--dices-in-a-row) + 1),
+                    1
+                  ) +
+                  1
+              )
+            )
+        ) *
+        var(--dice-width)
+    ),
+    calc(var(--row) * var(--dice-width))
+  );
+  transition: transform 0.3s ease-out;
+}
+
+@keyframes DiceView-Disappear {
+  to {
+    transform: translateY(33%);
+    opacity: 0;
+  }
+}
+.DiceField-Dice_removed {
+  --dices-count-1: calc(var(--dices-count) + 1);
+}
+
+.DiceField-Dice_removed .DiceView-ImageWrapper {
+  animation: 0.3s DiceView-Disappear ease-out forwards;
 }
 
 /*
@@ -103,6 +161,11 @@
   text-box-trim: trim-both;
   text-align: center;
   text-wrap-style: balance;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
 }
 
 @keyframes DiceView-Disappear {
@@ -110,13 +173,4 @@
     transform: translateY(33%);
     opacity: 0;
   }
-}
-
-::view-transition-old(.dice):only-child {
-  animation: 0.3s DiceView-Disappear ease-out forwards;
-}
-
-::view-transition-group(.dice) {
-  animation-timing-function: ease-out;
-  animation-duration: 0.3s;
 }
