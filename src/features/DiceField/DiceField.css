@@ -58,7 +58,7 @@
   margin: auto 0;
   width: 100%;
   position: relative;
-  --dice-width: 96px;
+  --dice-width: 112px;
   height: calc(
     max(1, round(up, var(--dices-count) / var(--dices-in-a-row), 1)) *
       var(--dice-width)

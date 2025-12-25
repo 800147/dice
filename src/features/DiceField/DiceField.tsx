@@ -48,8 +48,8 @@ export const DiceField: FunctionComponent = () => {
   const dicesStyle = useMemo<CSSProperties>(
     () =>
       ({
-        "--dices-in-a-row": Math.floor(dicesWidth / 96),
-        "--left-indent": `${(dicesWidth % 96) / 2}px`,
+        "--dices-in-a-row": Math.floor(dicesWidth / 112),
+        "--left-indent": `${(dicesWidth % 112) / 2}px`,
         "--dices-count": dices.length,
       }) as CSSProperties,
     [dicesWidth, dices],
