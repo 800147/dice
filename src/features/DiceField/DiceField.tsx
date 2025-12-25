@@ -101,12 +101,15 @@ export const DiceField: FunctionComponent = () => {
   );
 
   const roll = useCallback(() => {
-    setDices((oldDices) =>
-      oldDices.map((dice) => ({
+    setDices((oldDices) => {
+      // https://stackoverflow.com/a/78575449
+      const randoms = crypto.getRandomValues(new Uint32Array(oldDices.length));
+
+      return oldDices.map((dice, i) => ({
         ...dice,
-        state: { value: Math.floor(Math.random() * dice.d) + 1 },
-      })),
-    );
+        state: { value: Math.floor((randoms[i] / 4294967296) * dice.d) + 1 },
+      }));
+    });
   }, [setDices]);
 
   const counts = useMemo<Record<DVariant, number>>(() => {
