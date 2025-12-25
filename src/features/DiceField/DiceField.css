@@ -121,6 +121,7 @@
     opacity: 0;
   }
 }
+
 .DiceField-Dice_removed {
   --dices-count-1: calc(var(--dices-count) + 1);
 }
@@ -139,8 +140,9 @@
   max-width: calc(100% + var(--gap) * 2);
   margin-left: calc(var(--gap) * -1);
   margin-right: calc(var(--gap) * -1);
+  margin-bottom: calc(var(--gap) * -1);
   box-sizing: border-box;
-  padding: 0 var(--gap);
+  padding: 0 var(--gap) calc(var(--gap));
 }
 
 .DiceField-RollButton {
