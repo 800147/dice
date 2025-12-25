@@ -49,7 +49,7 @@
   content: "";
   display: block;
   position: absolute;
-  inset: -0.5em 0;
+  inset: -0.25em 0;
   background-color: var(--bg-color);
   z-index: -1;
 }
@@ -128,13 +128,6 @@
 .DiceField-Dice_removed .DiceView-ImageWrapper {
   animation: 0.3s DiceView-Disappear ease-out forwards;
 }
-
-/*
-.DiceField-Dices:not(:has(> .DiceField-Dice:nth-child(3))) .DiceField-Dice {
-  width: 144px;
-  height: 144px;
-}
-*/
 
 .DiceField-Counters {
   display: grid;
