@@ -176,7 +176,7 @@ export const DiceField: FunctionComponent = () => {
         size="large"
         disabled={!dices.length}
       >
-        roll the dices
+        roll the dice
       </Button>
     </div>
   );
