@@ -128,7 +128,7 @@ export const DiceField: FunctionComponent = () => {
   return (
     <div className="DiceField">
       <div className="DiceField-FieldWrapper">
-        <div className="DiceField-Field">
+        <div className="DiceField-Field" onClick={roll}>
           <div className="DiceField-Dices" ref={setDicesEl} style={dicesStyle}>
             {!dices.length && (
               <span className="DiceField-NoDicesText">
