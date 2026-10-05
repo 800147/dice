@@ -132,7 +132,7 @@ export const DiceField: FunctionComponent = () => {
           <div className="DiceField-Dices" ref={setDicesEl} style={dicesStyle}>
             {!dices.length && (
               <span className="DiceField-NoDicesText">
-                add some dices using controls below
+                add some dice using controls below
               </span>
             )}
             {dices.map(({ d, key, state }, i) => (
