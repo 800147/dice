@@ -54,41 +54,43 @@
   z-index: -1;
 }
 
-.DiceField-Dices {
+.DiceField-Dice {
   margin: auto 0;
   width: 100%;
   position: relative;
-  --dice-width: 112px;
+  --one-die-width: 112px;
   height: calc(
-    max(1, round(up, var(--dices-count) / var(--dices-in-a-row), 1)) *
-      var(--dice-width)
+    max(1, round(up, var(--dice-count) / var(--dice-in-a-row), 1)) *
+      var(--one-die-width)
   );
   transition: height 0.3s ease-out;
 }
 
-/*.DiceField-Dices:not(:has(> .DiceField-Dice:nth-child(3))) {
-  --dice-width: 144px;
+/*.DiceField-Dice:not(:has(> .DiceField-OneDie:nth-child(3))) {
+  --one-die-width: 144px;
 }*/
 
-.DiceField-Dice {
-  --dices-count-1: var(--dices-count);
+.DiceField-OneDie {
+  --dice-count-1: var(--dice-count);
   position: absolute;
   top: 0;
   left: var(--left-indent);
-  width: var(--dice-width);
-  height: var(--dice-width);
+  width: var(--one-die-width);
+  height: var(--one-die-width);
   user-select: none;
 
-  --row: calc(round(down, var(--DiceView-Position) / var(--dices-in-a-row), 1));
-  --col: calc(var(--DiceView-Position) - var(--row) * var(--dices-in-a-row));
+  --row: calc(
+    round(down, var(--OneDieView-Position) / var(--dice-in-a-row), 1)
+  );
+  --col: calc(var(--OneDieView-Position) - var(--row) * var(--dice-in-a-row));
 
   transform: translate(
     calc(
       (
           var(--col) +
             (
-              round(up, var(--dices-count-1), var(--dices-in-a-row)) -
-                var(--dices-count-1)
+              round(up, var(--dice-count-1), var(--dice-in-a-row)) -
+                var(--dice-count-1)
             ) /
             2 *
             max(
@@ -96,38 +98,38 @@
               calc(
                 round(
                     down,
-                    calc(var(--DiceView-Position) / var(--dices-in-a-row) + 1),
+                    calc(var(--OneDieView-Position) / var(--dice-in-a-row) + 1),
                     1
                   ) -
                   round(
                     down,
-                    calc(var(--dices-count-1) / var(--dices-in-a-row) + 1),
+                    calc(var(--dice-count-1) / var(--dice-in-a-row) + 1),
                     1
                   ) +
                   1
               )
             )
         ) *
-        var(--dice-width)
+        var(--one-die-width)
     ),
-    calc(var(--row) * var(--dice-width))
+    calc(var(--row) * var(--one-die-width))
   );
   transition: transform 0.3s ease-out;
 }
 
-@keyframes DiceView-Disappear {
+@keyframes OneDieView-Disappear {
   to {
     transform: translateY(33%);
     opacity: 0;
   }
 }
 
-.DiceField-Dice_removed {
-  --dices-count-1: calc(var(--dices-count) + 1);
+.DiceField-OneDie_removed {
+  --dice-count-1: calc(var(--dice-count) + 1);
 }
 
-.DiceField-Dice_removed .DiceView-ImageWrapper {
-  animation: 0.3s DiceView-Disappear ease-out forwards;
+.DiceField-OneDie_removed .OneDieView-ImageWrapper {
+  animation: 0.3s OneDieView-Disappear ease-out forwards;
 }
 
 .DiceField-Counters {
@@ -149,7 +151,7 @@
   flex-shrink: 0;
 }
 
-.DiceField-NoDicesText {
+.DiceField-NoDiceText {
   display: block;
   padding: 0 4ex;
   text-box-edge: ex alphabetic;
@@ -163,7 +165,7 @@
   right: 0;
 }
 
-@keyframes DiceView-Disappear {
+@keyframes OneDieView-Disappear {
   to {
     transform: translateY(33%);
     opacity: 0;

@@ -20,11 +20,11 @@
   border-top: none;
 }
 
-.DiceCounter-DiceViewBox {
+.DiceCounter-OneDieViewBox {
   position: relative;
 }
 
-.DiceCounter-DiceView {
+.DiceCounter-OneDieView {
   width: 64px;
   height: 64px;
 }

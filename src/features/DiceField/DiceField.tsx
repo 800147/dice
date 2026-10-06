@@ -7,7 +7,7 @@ import {
   type CSSProperties,
   type FunctionComponent,
 } from "react";
-import { DiceView } from "../../components/DiceView/DiceView";
+import { OneDieView } from "../../components/OneDieView/OneDieView";
 import { DiceCounter } from "../../components/DiceCounter/DiceCounter";
 import { dVariants, type DVariant } from "../../helpers/dVariants";
 import { Button } from "../../components/Button/Button";
@@ -15,11 +15,11 @@ import "./DiceField.css";
 
 export const DiceField: FunctionComponent = () => {
   const indexRef = useRef(0);
-  const [dices, setDices] = useState<
+  const [dice, setDice] = useState<
     { key: string; d: DVariant; state: { value: number } }[]
   >([]);
-  const [dicesEl, setDicesEl] = useState<HTMLDivElement | null>(null);
-  const [dicesWidth, setDicesWidth] = useState(0);
+  const [diceEl, setDiceEl] = useState<HTMLDivElement | null>(null);
+  const [diceWidth, setDiceWidth] = useState(0);
   const [removed, setRemoved] = useState<{
     d: DVariant;
     state: { value: number };
@@ -28,12 +28,12 @@ export const DiceField: FunctionComponent = () => {
   } | null>(null);
 
   useEffect(() => {
-    if (!dicesEl) {
+    if (!diceEl) {
       return () => {};
     }
 
     const check = () => {
-      setDicesWidth(dicesEl.clientWidth);
+      setDiceWidth(diceEl.clientWidth);
     };
 
     window.addEventListener("resize", check);
@@ -43,30 +43,30 @@ export const DiceField: FunctionComponent = () => {
     return () => {
       window.removeEventListener("resize", check);
     };
-  }, [dicesEl]);
+  }, [diceEl]);
 
-  const dicesStyle = useMemo<CSSProperties>(
+  const diceStyle = useMemo<CSSProperties>(
     () =>
       ({
-        "--dices-in-a-row": Math.floor(dicesWidth / 112),
-        "--left-indent": `${(dicesWidth % 112) / 2}px`,
-        "--dices-count": dices.length,
+        "--dice-in-a-row": Math.floor(diceWidth / 112),
+        "--left-indent": `${(diceWidth % 112) / 2}px`,
+        "--dice-count": dice.length,
       }) as CSSProperties,
-    [dicesWidth, dices],
+    [diceWidth, dice],
   );
 
   const changeCount = useCallback(
     (d: DVariant, delta: number) => {
       if (delta > 0) {
-        setDices((oldDices) => {
-          if (oldDices[0]?.state.value) {
+        setDice((oldDice) => {
+          if (oldDice[0]?.state.value) {
             return [
               { key: `id_${++indexRef.current}`, d, state: { value: 0 } },
             ];
           }
 
           return [
-            ...oldDices,
+            ...oldDice,
             { key: `id_${++indexRef.current}`, d, state: { value: 0 } },
           ];
         });
@@ -74,70 +74,70 @@ export const DiceField: FunctionComponent = () => {
         return;
       }
 
-      setDices((oldDices) => {
-        if (oldDices[0]?.state.value) {
+      setDice((oldDice) => {
+        if (oldDice[0]?.state.value) {
           return [];
         }
 
         const last = (
-          oldDices as unknown as { findLastIndex: typeof oldDices.findIndex }
+          oldDice as unknown as { findLastIndex: typeof oldDice.findIndex }
         ).findLastIndex(({ d: elD }) => elD === d);
 
         if (last === -1) {
-          return oldDices;
+          return oldDice;
         }
 
         setRemoved({
-          d: oldDices[last].d,
-          state: oldDices[last].state,
-          key: oldDices[last].key,
+          d: oldDice[last].d,
+          state: oldDice[last].state,
+          key: oldDice[last].key,
           position: last,
         });
 
-        return oldDices.filter((_, i) => i !== last);
+        return oldDice.filter((_, i) => i !== last);
       });
     },
-    [setDices, indexRef],
+    [setDice, indexRef],
   );
 
   const roll = useCallback(() => {
-    setDices((oldDices) => {
+    setDice((oldDice) => {
       // https://stackoverflow.com/a/78575449
-      const randoms = crypto.getRandomValues(new Uint32Array(oldDices.length));
+      const randoms = crypto.getRandomValues(new Uint32Array(oldDice.length));
 
-      return oldDices.map((dice, i) => ({
-        ...dice,
-        state: { value: Math.floor((randoms[i] / 4294967296) * dice.d) + 1 },
+      return oldDice.map((die, i) => ({
+        ...die,
+        state: { value: Math.floor((randoms[i] / 4294967296) * die.d) + 1 },
       }));
     });
-  }, [setDices]);
+  }, [setDice]);
 
   const counts = useMemo<Record<DVariant, number>>(() => {
-    if (dices[0]?.state.value) {
+    if (dice[0]?.state.value) {
       return {} as Record<DVariant, number>;
     }
 
     const result = {} as Record<DVariant, number>;
-    dices.forEach(({ d }) => {
+    dice.forEach(({ d }) => {
       result[d] = (result[d] ?? 0) + 1;
     });
 
     return result;
-  }, [dices]);
+  }, [dice]);
 
   return (
     <div className="DiceField">
       <div className="DiceField-FieldWrapper">
         <div className="DiceField-Field" onClick={roll}>
-          <div className="DiceField-Dices" ref={setDicesEl} style={dicesStyle}>
-            {!dices.length && (
-              <span className="DiceField-NoDicesText">
+          <div className="DiceField-Dice" ref={setDiceEl} style={diceStyle}>
+            {!dice.length && (
+              <span className="DiceField-NoDiceText">
                 add some dice using controls below
               </span>
             )}
-            {dices.map(({ d, key, state }, i) => (
-              <DiceView
-                className="DiceField-Dice"
+            {dice.map(({ d, key, state }, i) => (
+              <OneDieView
+                className="DiceField-OneDie"
                 d={d}
                 key={key}
                 state={state}
@@ -145,8 +145,8 @@ export const DiceField: FunctionComponent = () => {
               />
             ))}
             {removed && (
-              <DiceView
-                className="DiceField-Dice DiceField-Dice_removed"
+              <OneDieView
+                className="DiceField-OneDie DiceField-OneDie_removed"
                 noAnimation
                 d={removed.d}
                 state={removed.state}
@@ -174,7 +174,7 @@ export const DiceField: FunctionComponent = () => {
         className="DiceField-RollButton"
         onClick={roll}
         size="large"
-        disabled={!dices.length}
+        disabled={!dice.length}
       >
         roll the dice
       </Button>

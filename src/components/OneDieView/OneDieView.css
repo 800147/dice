@@ -1,0 +1,63 @@
+.OneDieView {
+  --OneDieView-TilesMapWidth: 1050;
+  --OneDieView-TilesMapHeight: 1000;
+  --OneDieView-TileSize: 50;
+
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
+.OneDieView-ImageWrapper {
+  overflow: hidden;
+  max-width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1;
+}
+
+.OneDieView-Image {
+  width: calc(
+    100% * var(--OneDieView-TilesMapWidth) / var(--OneDieView-TileSize)
+  );
+  height: calc(
+    100% * var(--OneDieView-TilesMapHeight) / var(--OneDieView-TileSize)
+  );
+  position: relative;
+  top: calc(-100% * (var(--OneDieView-D) - 1));
+  left: calc(-100% * var(--OneDieView-Value));
+}
+
+@media (prefers-color-scheme: dark) {
+  .OneDieView-Image {
+    filter: invert();
+  }
+}
+
+@keyframes OneDieView-Roll {
+  from {
+    transform: translateY(-25%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes OneDieView-Appear {
+  from {
+    transform: translateY(33%);
+    opacity: 0;
+  }
+}
+
+.OneDieView:not(.OneDieView_noAnimation)
+  .OneDieView-ImageWrapper:not(.OneDieView-ImageWrapper_animated) {
+  animation: 0.3s OneDieView-Appear ease-out;
+}
+
+.OneDieView-ImageWrapper_animated:not(.OneDieView_noAnimation *) {
+  animation: 0.3s OneDieView-Roll ease-out;
+  animation-delay: calc(50ms * var(--OneDieView-Position));
+  animation-fill-mode: both;
+}

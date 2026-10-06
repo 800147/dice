@@ -9,6 +9,7 @@ interface ButtonProps {
   size?: "medium" | "large";
   type?: "submit" | "reset" | "button";
   disabled?: boolean;
+  id?: string;
 }
 
 export const Button: FunctionComponent<ButtonProps> = ({
@@ -18,12 +19,14 @@ export const Button: FunctionComponent<ButtonProps> = ({
   size = "medium",
   type = "button",
   disabled,
+  id,
 }) => (
   <button
     className={clsx("Button", `Button_size_${size}`, className)}
     onClick={onClick}
     type={type}
     disabled={disabled}
+    id={id}
   >
     {children}
   </button>

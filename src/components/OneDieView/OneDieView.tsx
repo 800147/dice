@@ -9,9 +9,9 @@ import {
 import clsx from "clsx";
 import type { DVariant } from "../../helpers/dVariants";
 import diceTiles from "/dice-tiles.svg";
-import "./DiceView.css";
+import "./OneDieView.css";
 
-interface DiceViewProps {
+interface OneDieViewProps {
   d: DVariant;
   state: {
     value?: number;
@@ -21,30 +21,30 @@ interface DiceViewProps {
   className?: string;
 }
 
-interface DiceViewState {
+interface OneDieViewState {
   d: DVariant;
   value?: number;
   oldValue?: number;
 }
 
-export const DiceView: FunctionComponent<DiceViewProps> = ({
+export const OneDieView: FunctionComponent<OneDieViewProps> = ({
   d: dProp,
   state: stateProp,
   position,
   noAnimation,
   className,
 }) => {
-  const [state, setState] = useState<DiceViewState | undefined>(undefined);
+  const [state, setState] = useState<OneDieViewState | undefined>(undefined);
   const [imageWrapper, setImageWrapper] = useState<HTMLDivElement | null>(null);
 
   const style = useMemo<CSSProperties>(() => {
     const { d, value, oldValue } = state ?? { d: dProp, value: 0 };
 
     return {
-      "--DiceView-D": d,
-      "--DiceView-Value": value,
-      "--DiceView-OldValue": oldValue ?? 0,
-      "--DiceView-Position": position,
+      "--OneDieView-D": d,
+      "--OneDieView-Value": value,
+      "--OneDieView-OldValue": oldValue ?? 0,
+      "--OneDieView-Position": position,
     } as CSSProperties;
   }, [state, dProp, position]);
 
@@ -61,30 +61,30 @@ export const DiceView: FunctionComponent<DiceViewProps> = ({
       return;
     }
 
-    imageWrapper.classList.remove("DiceView-ImageWrapper_animated");
+    imageWrapper.classList.remove("OneDieView-ImageWrapper_animated");
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     imageWrapper.clientWidth;
-    imageWrapper.classList.add("DiceView-ImageWrapper_animated");
+    imageWrapper.classList.add("OneDieView-ImageWrapper_animated");
   }, [state, imageWrapper]);
 
   return (
     <div
       className={clsx(
-        "DiceView",
-        noAnimation && "DiceView_noAnimation",
+        "OneDieView",
+        noAnimation && "OneDieView_noAnimation",
         className,
       )}
       style={style}
     >
       <div
         className={clsx(
-          "DiceView-ImageWrapper",
-          state?.value && "DiceView-ImageWrapper_animated",
+          "OneDieView-ImageWrapper",
+          state?.value && "OneDieView-ImageWrapper_animated",
         )}
         ref={setImageWrapper}
       >
         <img
-          className="DiceView-Image"
+          className="OneDieView-Image"
           width="50"
           height="50"
           src={diceTiles}
