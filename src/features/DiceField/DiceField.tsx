@@ -12,14 +12,17 @@ import { DiceCounter } from "../../components/DiceCounter/DiceCounter";
 import { dVariants, type DVariant } from "../../helpers/dVariants";
 import { Button } from "../../components/Button/Button";
 import "./DiceField.css";
+import clsx from "clsx";
 
 export const DiceField: FunctionComponent = () => {
   const indexRef = useRef(0);
   const [dice, setDice] = useState<
     { key: string; d: DVariant; state: { value: number } }[]
   >([]);
+  const [fieldEl, setFieldEl] = useState<HTMLLabelElement | null>(null);
   const [diceEl, setDiceEl] = useState<HTMLDivElement | null>(null);
   const [diceWidth, setDiceWidth] = useState(0);
+  const [emptyClicks, setEmptyClicks] = useState(0);
   const [removed, setRemoved] = useState<{
     d: DVariant;
     state: { value: number };
@@ -101,6 +104,13 @@ export const DiceField: FunctionComponent = () => {
   );
 
   const roll = useCallback(() => {
+    if (!dice.length) {
+      setEmptyClicks((c) => c + 1);
+
+      return;
+    }
+
+    setEmptyClicks(0);
     setDice((oldDice) => {
       // https://stackoverflow.com/a/78575449
       const randoms = crypto.getRandomValues(new Uint32Array(oldDice.length));
@@ -110,7 +120,7 @@ export const DiceField: FunctionComponent = () => {
         state: { value: Math.floor((randoms[i] / 4294967296) * die.d) + 1 },
       }));
     });
-  }, [setDice]);
+  }, [setDice, dice.length]);
 
   const counts = useMemo<Record<DVariant, number>>(() => {
     if (dice[0]?.state.value) {
@@ -125,13 +135,38 @@ export const DiceField: FunctionComponent = () => {
     return result;
   }, [dice]);
 
+  useEffect(() => {
+    if (!fieldEl) {
+      return;
+    }
+
+    const diceInARow = Math.floor(diceWidth / 112);
+
+    const rows = Math.ceil(dice.length / diceInARow);
+
+    fieldEl.scrollTo({
+      top: rows * 112 - fieldEl.clientHeight,
+      behavior: "smooth",
+    });
+  }, [dice.length]);
+
   return (
     <div className="DiceField">
       <div className="DiceField-FieldWrapper">
-        <div className="DiceField-Field" onClick={roll}>
+        <label
+          className="DiceField-Field"
+          htmlFor="rollButton"
+          ref={setFieldEl}
+        >
           <div className="DiceField-Dice" ref={setDiceEl} style={diceStyle}>
             {!dice.length && (
-              <span className="DiceField-NoDiceText">
+              <span
+                className={clsx(
+                  "DiceField-NoDiceText",
+                  emptyClicks && "DiceField-NoDiceText_animated",
+                )}
+                key={emptyClicks}
+              >
                 add some dice using controls below
               </span>
             )}
@@ -155,7 +190,7 @@ export const DiceField: FunctionComponent = () => {
               />
             )}
           </div>
-        </div>
+        </label>
         <a className="DiceField-AboutLink" href="./about">
           about
         </a>
@@ -174,7 +209,7 @@ export const DiceField: FunctionComponent = () => {
         className="DiceField-RollButton"
         onClick={roll}
         size="large"
-        disabled={!dice.length}
+        id="rollButton"
       >
         roll the dice
       </Button>

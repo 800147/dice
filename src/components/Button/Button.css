@@ -52,3 +52,8 @@
 .Button:not(:active)::before {
   transition: opacity 0.1s linear;
 }
+
+.Button:focus-visible {
+  outline: 3px dashed currentColor;
+  outline-offset: -5px;
+}

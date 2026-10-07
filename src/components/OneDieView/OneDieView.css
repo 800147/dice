@@ -58,6 +58,12 @@
 
 .OneDieView-ImageWrapper_animated:not(.OneDieView_noAnimation *) {
   animation: 0.3s OneDieView-Roll ease-out;
-  animation-delay: calc(50ms * var(--OneDieView-Position));
+  animation-delay: calc(
+    50ms *
+      (
+        mod(var(--OneDieView-Position), var(--dice-in-a-row)) +
+          round(down, var(--OneDieView-Position) / var(--dice-in-a-row), 1)
+      )
+  );
   animation-fill-mode: both;
 }
