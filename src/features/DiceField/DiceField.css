@@ -5,10 +5,12 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  --padding: 12px;
   --gapV: 32px;
   --gapH: 12px;
+  --scrollbarWidth: 6px;
   gap: var(--gapV) var(--gapH);
-  padding: 12px;
+  padding: var(--padding);
 }
 
 .DiceField-FieldWrapper {
@@ -146,12 +148,13 @@
   gap: var(--gapV) var(--gapH);
   flex-shrink: 0;
   overflow: auto;
-  max-width: calc(100% + var(--gapH) * 2);
-  margin-left: calc(var(--gapH) * -1);
-  margin-right: calc(var(--gapH) * -1);
-  margin-bottom: calc(var(--gapV) * -1);
+  max-width: calc(100% + var(--padding) * 2);
+  margin-left: calc(var(--padding) * -1);
+  margin-right: calc(var(--padding) * -1);
+  margin-bottom: calc(var(--scrollbarWidth) * -1);
   box-sizing: border-box;
-  padding: 0 var(--gapH) var(--gapV);
+  padding: 0 var(--padding) var(--scrollbarWidth);
+  scrollbar-width: thin;
 }
 
 .DiceField-RollButton {

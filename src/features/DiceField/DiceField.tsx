@@ -7,12 +7,12 @@ import {
   type CSSProperties,
   type FunctionComponent,
 } from "react";
+import clsx from "clsx";
 import { OneDieView } from "../../components/OneDieView/OneDieView";
 import { DiceCounter } from "../../components/DiceCounter/DiceCounter";
 import { dVariants, type DVariant } from "../../helpers/dVariants";
 import { Button } from "../../components/Button/Button";
 import "./DiceField.css";
-import clsx from "clsx";
 
 export const DiceField: FunctionComponent = () => {
   const indexRef = useRef(0);
@@ -29,6 +29,7 @@ export const DiceField: FunctionComponent = () => {
     position: number;
     key: string;
   } | null>(null);
+  const removedClearTimerRef = useRef<number | undefined>(undefined);
 
   useEffect(() => {
     if (!diceEl) {
@@ -96,6 +97,11 @@ export const DiceField: FunctionComponent = () => {
           key: oldDice[last].key,
           position: last,
         });
+        clearTimeout(removedClearTimerRef.current);
+        removedClearTimerRef.current = setTimeout(
+          () => setRemoved(null),
+          1000
+        );
 
         return oldDice.filter((_, i) => i !== last);
       });
