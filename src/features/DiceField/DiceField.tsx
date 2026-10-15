@@ -110,7 +110,6 @@ export const DiceField: FunctionComponent = () => {
       return;
     }
 
-    setEmptyClicks(0);
     setDice((oldDice) => {
       // https://stackoverflow.com/a/78575449
       const randoms = crypto.getRandomValues(new Uint32Array(oldDice.length));
@@ -136,6 +135,8 @@ export const DiceField: FunctionComponent = () => {
   }, [dice]);
 
   useEffect(() => {
+    setEmptyClicks(0);
+
     if (!fieldEl) {
       return;
     }

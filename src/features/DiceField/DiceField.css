@@ -5,9 +5,10 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  --gap: 12px;
-  gap: var(--gap);
-  padding: var(--gap);
+  --gapV: 32px;
+  --gapH: 12px;
+  gap: var(--gapV) var(--gapH);
+  padding: 12px;
 }
 
 .DiceField-FieldWrapper {
@@ -142,15 +143,15 @@
   display: grid;
   grid-auto-flow: column;
   width: max-content;
-  gap: var(--gap);
+  gap: var(--gapV) var(--gapH);
   flex-shrink: 0;
   overflow: auto;
-  max-width: calc(100% + var(--gap) * 2);
-  margin-left: calc(var(--gap) * -1);
-  margin-right: calc(var(--gap) * -1);
-  margin-bottom: calc(var(--gap) * -1);
+  max-width: calc(100% + var(--gapH) * 2);
+  margin-left: calc(var(--gapH) * -1);
+  margin-right: calc(var(--gapH) * -1);
+  margin-bottom: calc(var(--gapV) * -1);
   box-sizing: border-box;
-  padding: 0 var(--gap) calc(var(--gap));
+  padding: 0 var(--gapH) var(--gapV);
 }
 
 .DiceField-RollButton {
@@ -172,19 +173,30 @@
 }
 
 .DiceField-NoDiceText_animated {
-  animation: 0.5s OneDieView-NoDiceTextAnimation ease-out forwards;
+  animation-name: OneDieView-WobbleAnimation, OneDieView-ScaleAnimation;
+  animation-duration: 0.4s;
+  animation-direction: alternate;
+  animation-iteration-count: 2;
+  animation-timing-function: ease-in-out;
 }
 
-@keyframes OneDieView-NoDiceTextAnimation {
-  33% {
-    transform: rotate(-5deg) scale(1.25);
+@keyframes OneDieView-WobbleAnimation {
+  from {
+    rotate: 0deg;
   }
-
-  67% {
-    transform: rotate(5deg) scale(1.25);
+  50% {
+    rotate: -3deg;
   }
+  to {
+    rotate: 3deg;
+  }
+}
 
-  100% {
-    transform: rotate(0deg) scale(1);
+@keyframes OneDieView-ScaleAnimation {
+  from {
+    scale: 1;
+  }
+  to {
+    scale: 1.1;
   }
 }
